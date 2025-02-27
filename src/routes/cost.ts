@@ -1,6 +1,6 @@
 import bearer from "@elysiajs/bearer";
-import { add, sub } from "date-fns";
-import { and, eq, gte, lte } from "drizzle-orm";
+import { add, startOfDay, sub } from "date-fns";
+import { and, eq, gte, lt } from "drizzle-orm";
 import { Elysia, t } from "elysia";
 import { config } from "../../tracker.config";
 import { db } from "../db";
@@ -20,8 +20,8 @@ export const costRouter = new Elysia({
             "Both 'from' and 'to' must be provided if you choose to provide the other.",
         };
 
-      const fromParsed = from ?? sub(new Date(), { months: 1 });
-      const toParsed = to ?? add(new Date(), { days: 1 });
+      const fromParsed = from ?? startOfDay(sub(new Date(), { months: 1 }));
+      const toParsed = to ?? startOfDay(add(new Date(), { days: 1 }));
 
       const foundUsage = await db.query.users.findMany({
         columns: {
@@ -34,7 +34,7 @@ export const costRouter = new Elysia({
           bearer !== config.masterKey ? eq(users.apiKey, bearer) : undefined,
         with: {
           usage: {
-            where: and(gte(usage.date, fromParsed), lte(usage.date, toParsed)),
+            where: and(gte(usage.date, fromParsed), lt(usage.date, toParsed)),
           },
         },
       });
@@ -81,7 +81,7 @@ export const costRouter = new Elysia({
         });
       }
 
-      return { cost };
+      return { cost, from: fromParsed, to: toParsed };
     },
     {
       query: t.Object({
