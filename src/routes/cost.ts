@@ -64,6 +64,7 @@ export const costRouter = new Elysia({
                 user: identity.replace(extraCost.prefix, ""),
               });
               if (extraCost.addTaxes) extra *= config.taxRate;
+              if (!extra) continue;
 
               total += extra;
               breakdown.set(extraCost.name, extra);
