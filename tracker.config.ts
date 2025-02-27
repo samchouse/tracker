@@ -21,6 +21,7 @@ export const config = defineConfig({
   dbFileName: env.DB_FILE_NAME,
   host: "localhost",
   port: 3000,
+  taxRate: 1.14975,
   services: [
     {
       name: "Tavily",
@@ -57,6 +58,7 @@ export const config = defineConfig({
     {
       name: "LibreChat",
       prefix: "librechat/",
+      addTaxes: true,
       fetch: async ({ from, to, user }) => {
         const loginReq = await fetch(`${env.LITELLM_URL}/login`, {
           method: "POST",

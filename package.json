@@ -7,8 +7,8 @@
     "start": "bun run src/index.ts",
     "check": "biome check",
     "db:push": "drizzle-kit push",
-    "db:gen": "drizzle-kit generate",
-    "db:apply": "drizzle-kit apply",
+    "db:generate": "drizzle-kit generate",
+    "db:migrate": "drizzle-kit migrate",
     "db:studio": "drizzle-kit studio"
   },
   "dependencies": {

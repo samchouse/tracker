@@ -58,11 +58,12 @@ export const costRouter = new Elysia({
         for (const extraCost of config.extraCosts ?? []) {
           for (const identity of user.identities) {
             if (identity.startsWith(extraCost.prefix)) {
-              const extra = await extraCost.fetch({
+              let extra = await extraCost.fetch({
                 from: fromParsed,
                 to: toParsed,
                 user: identity.replace(extraCost.prefix, ""),
               });
+              if (extraCost.addTaxes) extra *= config.taxRate;
 
               total += extra;
               breakdown.set(extraCost.name, extra);

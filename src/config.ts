@@ -7,6 +7,7 @@ const schema = t.Object({
   port: t.Number(),
   masterKey: t.String(),
   dbFileName: t.String(),
+  taxRate: t.Number(),
   services: t.Array(
     t.Object({
       name: t.String(),
@@ -48,6 +49,7 @@ const schema = t.Object({
       t.Object({
         name: t.String(),
         prefix: t.String(),
+        addTaxes: t.Boolean(),
         fetch: t.Function(
           [
             t.Object({
