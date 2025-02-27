@@ -1,0 +1,24 @@
+diff --git a/build/cjs/value/clone/clone.js b/build/cjs/value/clone/clone.js
+index de410cc94855ed17b2316a59c9fc393f3b1c00ca..bb960006874733132c606514f80cdce4decbea2b 100644
+--- a/build/cjs/value/clone/clone.js
++++ b/build/cjs/value/clone/clone.js
+@@ -56,5 +56,7 @@ function Clone(value) {
+         return FromObject(value);
+     if ((0, index_1.IsValueType)(value))
+         return FromValue(value);
++    if (typeof value === 'function')
++        return value;
+     throw new Error('ValueClone: Unable to clone value');
+ }
+diff --git a/build/esm/value/clone/clone.mjs b/build/esm/value/clone/clone.mjs
+index b746c590a7140f4dace814f2dd82ed8b943a5ddd..a203b3fc02be5623178873f9589b68a7348eaf27 100644
+--- a/build/esm/value/clone/clone.mjs
++++ b/build/esm/value/clone/clone.mjs
+@@ -52,5 +52,7 @@ export function Clone(value) {
+         return FromObject(value);
+     if (IsValueType(value))
+         return FromValue(value);
++    if (typeof value === 'function')
++        return value;
+     throw new Error('ValueClone: Unable to clone value');
+ }

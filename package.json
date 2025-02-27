@@ -1,15 +1,35 @@
 {
-  "name": "api-tracker",
-  "version": "1.0.50",
+  "name": "tracker",
+  "version": "0.0.1",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "bun run --watch src/index.ts"
+    "dev": "bun run --watch src/index.ts",
+    "check": "biome check",
+    "db:push": "drizzle-kit push",
+    "db:gen": "drizzle-kit generate",
+    "db:apply": "drizzle-kit apply",
+    "db:studio": "drizzle-kit studio"
   },
   "dependencies": {
-    "elysia": "latest"
+    "@elysiajs/bearer": "^1.2.0",
+    "@elysiajs/swagger": "^1.2.2",
+    "@paralleldrive/cuid2": "^2.2.2",
+    "@sinclair/typebox": "^0.34.28",
+    "date-fns": "^4.1.0",
+    "drizzle-orm": "^0.40.0",
+    "elysia": "latest",
+    "jose": "^6.0.8",
+    "tough-cookie": "^5.1.1"
   },
   "devDependencies": {
-    "bun-types": "latest"
+    "@biomejs/biome": "1.9.4",
+    "@libsql/client": "^0.14.0",
+    "bun-types": "latest",
+    "dotenv": "^16.4.7",
+    "drizzle-kit": "^0.30.5"
   },
-  "module": "src/index.js"
+  "trustedDependencies": ["@biomejs/biome"],
+  "patchedDependencies": {
+    "@sinclair/typebox@0.34.28": "patches/@sinclair%2Ftypebox@0.34.28.patch"
+  }
 }
