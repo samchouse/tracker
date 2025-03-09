@@ -16,28 +16,30 @@ const DUAL_KEY_ROUTES = new Set([
 
 export const authMiddleware = new Elysia()
   .use(bearer())
-  .onBeforeHandle(async ({ error, path, request: { method }, bearer }) => {
-    if (
-      UNPROTECTED_ROUTES.has(`${method.toUpperCase()} /${path.split("/")[1]}`)
-    )
-      return;
+  .onBeforeHandle(
+    async ({ error, path, request: { method }, bearer }) => {
+      if (
+        UNPROTECTED_ROUTES.has(`${method.toUpperCase()} /${path.split("/")[1]}`)
+      )
+        return;
 
-    const authorization = bearer as string | undefined;
-    if (
-      authorization &&
-      DUAL_KEY_ROUTES.has(`${method.toUpperCase()} ${path}`)
-    ) {
-      const foundUser = await db.query.users.findFirst({
-        where: eq(users.apiKey, authorization),
-      });
-      if (foundUser) return;
-    }
+      const authorization = bearer as string | undefined;
+      if (
+        authorization &&
+        DUAL_KEY_ROUTES.has(`${method.toUpperCase()} ${path}`)
+      ) {
+        const foundUser = await db.query.users.findFirst({
+          where: eq(users.apiKey, authorization),
+        });
+        if (foundUser) return;
+      }
 
-    if (authorization !== config.masterKey)
-      return error(401, {
-        message: "API key is missing or invalid.",
-      });
-  })
+      if (authorization !== config.masterKey)
+        return error(401, {
+          message: "API key is missing or invalid.",
+        });
+    },
+  )
   .as("plugin");
 
 export const swaggerMiddleware = swagger({

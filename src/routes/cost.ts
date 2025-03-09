@@ -5,6 +5,7 @@ import { Elysia, t } from "elysia";
 import { config } from "../../tracker.config";
 import { db } from "../db";
 import { usage, users } from "../db/schema";
+import { round } from "../utils";
 
 export const costRouter = new Elysia({
   prefix: "/cost",
@@ -76,9 +77,9 @@ export const costRouter = new Elysia({
           id: user.id,
           name: user.name,
           username: user.username,
-          cost: total,
+          cost: round(total, 5),
           breakdown: [
-            ...breakdown.entries().map(([source, cost]) => ({ source, cost })),
+            ...breakdown.entries().map(([source, cost]) => ({ source, cost: round(cost, 5) })),
           ],
         });
       }

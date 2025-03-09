@@ -12,7 +12,7 @@ const schema = t.Object({
     t.Object({
       name: t.String(),
       api: t.String({ format: "uri" }),
-      key: t.String(),
+      key: t.Union([t.String(), t.Object({ location: t.Union([t.Literal("query")]), name: t.String(), value: t.String() })]),
       prefix: t.String(),
       endpoints: t.Array(
         t.Object({
@@ -22,6 +22,7 @@ const schema = t.Object({
             t.Literal("POST"),
             t.Literal("ALL"),
           ]),
+          transformResponse: t.Optional(t.Function([t.Unsafe<Response>()], t.Unsafe<Response>())),
           pricing: t.Union([
             t.Object({
               type: t.Literal("fixed"),

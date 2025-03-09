@@ -43,3 +43,13 @@ package-lock.json
 
 .env
 *.db
+
+# Devenv
+.devenv*
+devenv.local.nix
+
+# direnv
+.direnv
+
+# pre-commit
+.pre-commit-config.yaml

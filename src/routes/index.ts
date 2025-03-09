@@ -45,12 +45,14 @@ export function generateRoutes() {
         endpoint.path,
         async ({ request, headers }) => {
           const response = await redirectRequest({
-            bearer: service.key,
+            key: service.key,
             request: request.clone(),
             to: { api: service.api, path: endpoint.path },
           });
 
           Promise.resolve().then(async () => {
+            if (!response.ok) return;
+
             let cost =
               endpoint.pricing.type === "fixed" ? endpoint.pricing.cost : 0;
             if (endpoint.pricing.type === "dynamic") {
@@ -80,7 +82,7 @@ export function generateRoutes() {
               .execute();
           });
 
-          return response;
+          return endpoint.transformResponse ? endpoint.transformResponse(response) : response;
         },
         {
           detail: {

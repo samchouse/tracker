@@ -6,8 +6,8 @@
     "useIgnoreFile": false
   },
   "files": {
-    "ignoreUnknown": false,
-    "ignore": []
+    "ignoreUnknown": true,
+    "ignore": [".devenv", ".direnv", "drizzle"]
   },
   "formatter": {
     "enabled": true,
