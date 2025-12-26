@@ -1,4 +1,10 @@
-{ pkgs, lib, config, inputs, ... }:
+{
+  pkgs,
+  lib,
+  config,
+  inputs,
+  ...
+}:
 {
   cachix.enable = false;
   dotenv.disableHint = true;
@@ -9,7 +15,7 @@
       enable = true;
       bun.enable = true;
 
-      package = pkgs.nodejs_23;
+      package = pkgs.nodejs_24;
     };
   };
 }
